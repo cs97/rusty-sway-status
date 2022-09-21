@@ -41,7 +41,7 @@ fn return_vol() -> String {
   //let output = Command::new(cmd).output().expect("failed to execute process");
   let output = Command::new(cmd).output();
 
-  let out = match {
+  let out = match output {
     Ok(out) => out.stdout,
     Err(_e) => { return "VOL:[no audio]".to_string(); }
   };
