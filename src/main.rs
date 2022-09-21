@@ -38,8 +38,18 @@ fn main() {
 
 fn return_vol() -> String {
   let cmd = "amixer".to_string();
-  let output = Command::new(cmd).output().expect("failed to execute process");
-  let vol_str = str::from_utf8(&output.stdout).unwrap();
+  //let output = Command::new(cmd).output().expect("failed to execute process");
+  let output = Command::new(cmd).output()
+  
+  let out = match {
+    Ok(out) => out.stdout,
+    Err(_e) => { return "VOL:[no audio]".to_string(); },
+  };
+
+ // let vol_str = str::from_utf8(&output.stdout).unwrap();
+  let vol_str = str::from_utf8(&out).unwrap();
+
+
   if vol_str.len() < 2 {
     return "[failed to execute amixer]".to_string();
   }
