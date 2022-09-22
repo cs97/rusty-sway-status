@@ -51,7 +51,8 @@ fn return_vol() -> String {
 }
 
 fn return_max_cpu_freq() -> String {
-  let mut core_num = get_amount_of_cores;
+  let mut cores = get_amount_of_cores();
+  let mut core_num = 0;
   let mut max_freq = 0;
   let mut cur_freq;
   for n in 0..=cores {
