@@ -69,7 +69,7 @@ fn return_max_cpu_freq() -> String {
 fn get_amount_of_cores() -> usize {
   let mut n = 0;
   loop {
-    let s = format!("/sys/devices/system/cpu/cpu"{}, n + 1)
+    let s = format!("/sys/devices/system/cpu/cpu"{}, n + 1);
     if Path::new(&s).is_dir() {
       n = n + 1;
       continue;
