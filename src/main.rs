@@ -5,7 +5,7 @@ use std::process::Command;
 fn main() {
 
   //MHz
-  let cpu = return_max_cpu_freq(cpu_cores);
+  let cpu = return_max_cpu_freq();
 
   //BAT
   let bat = get_bat();
