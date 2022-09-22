@@ -4,8 +4,6 @@ use std::process::Command;
 
 fn main() {
 
-  let cpu_cores = 7;
-  
   //MHz
   let cpu = return_max_cpu_freq(cpu_cores);
 
@@ -51,7 +49,7 @@ fn return_vol() -> String {
   return format!("VOL:{}{}{}", vol_left, vol_rigth, vol_status);
 }
 
-fn return_max_cpu_freq(cores: usize) -> String {
+fn return_max_cpu_freq() -> String {
   let mut core_num = get_amount_of_cores;
   let mut max_freq = 0;
   let mut cur_freq;
