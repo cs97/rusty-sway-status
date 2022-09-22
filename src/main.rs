@@ -1,5 +1,4 @@
 // Swaywm status bar
-use std::str;
 use std::fs;
 use std::process::Command;
 
