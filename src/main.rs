@@ -33,7 +33,7 @@ fn get_date() -> String {
   let output = Command::new("date").args(["+%a %F %H:%M"]).output().expect("failed to execute process");
   let date = format!("{:?}", String::from_utf8_lossy(&output.stdout));
   let l = date.len();
-  return format!("DATE:[{}]", &date[1..l-2]);
+  return format!("DATE:[{}]", &date[1..l-3]);
 }
 
 fn return_vol() -> String {
