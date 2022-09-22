@@ -16,11 +16,7 @@ fn main() {
   let cpu = format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz.0);
 
   //BAT
-  // /sys/class/power_supply/BAT0/capacity
-  let bat_cap = return_string("/sys/class/power_supply/BAT0/capacity".to_string());
-  // /sys/class/power_supply/BAT0/status
-  let bat_stat = return_string("/sys/class/power_supply/BAT0/status".to_string());
-  let bat = format!("BAT:[{}% {}]", bat_cap, bat_stat);
+  let bat = get_bat();
  
   //date
   let date = get_date();
@@ -32,6 +28,12 @@ fn main() {
   let stat = format!("{} {} {} {}", cpu, volume, bat, date);
   println!("{}", stat);
 
+}
+
+fn get_bat() -> String {
+  let bat_cap = return_string("/sys/class/power_supply/BAT0/capacity".to_string());
+  let bat_stat = return_string("/sys/class/power_supply/BAT0/status".to_string());
+  return format!("BAT:[{}% {}]", bat_cap, bat_stat);
 }
 
 fn get_date() -> String {
