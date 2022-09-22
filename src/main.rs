@@ -8,12 +8,8 @@ fn main() {
   let cpu_cores = 7;
   
   //MHz
-  // /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
-  let (core_num, max_freq) = return_max_cpu_freq(cpu_cores);
 
-  let cpu_string = format!("{}", max_freq);
-  let cpu_mhz = cpu_string.split_at(cpu_string.len() - 3);
-  let cpu = format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz.0);
+  let cpu = 
 
   //BAT
   let bat = get_bat();
@@ -61,7 +57,7 @@ fn return_vol() -> String {
   return vol
 }
 
-fn return_max_cpu_freq(cores: usize) -> (usize, usize) {
+fn return_max_cpu_freq(cores: usize) -> String {//(usize, usize) {
   let mut max_freq = 0;
   let mut core_num = 0;
   let mut cur_freq;
@@ -74,7 +70,13 @@ fn return_max_cpu_freq(cores: usize) -> (usize, usize) {
       core_num = n;  
     }
   }
-  return (core_num, max_freq)
+  //return (core_num, max_freq)
+  // /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+  //let (core_num, max_freq) = return_max_cpu_freq(cpu_cores);
+
+  let cpu_string = format!("{}", max_freq);
+  let cpu_mhz = cpu_string.split_at(cpu_string.len() - 3);
+  return format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz.0);
 }
 
 fn return_core_freq(core: usize) -> usize {
