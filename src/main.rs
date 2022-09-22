@@ -23,9 +23,7 @@ fn main() {
   let bat = format!("BAT:[{}% {}]", bat_cap, bat_stat);
  
   //date
-  let output = Command::new("date").args(["+%a %F %H:%M"]).output().expect("failed to execute process");
-  let date = format!("{:?}", String::from_utf8_lossy(&output.stdout));
-  let date = format!("DATE:[{}]", &date[1..20]);
+  let date = get_date();
 
   //vol
   let volume = return_vol();
@@ -36,24 +34,23 @@ fn main() {
 
 }
 
+fn get_date() -> String {
+  let output = Command::new("date").args(["+%a %F %H:%M"]).output().expect("failed to execute process");
+  let date = format!("{:?}", String::from_utf8_lossy(&output.stdout));
+  return format!("DATE:[{}]", &date[1..20]);
+}
+
 fn return_vol() -> String {
   let cmd = "amixer".to_string();
-  //let output = Command::new(cmd).output().expect("failed to execute process");
   let output = Command::new(cmd).output();
-
   let out = match output {
     Ok(out) => out.stdout,
     Err(_e) => { return "VOL:[no audio]".to_string(); }
   };
-
- // let vol_str = str::from_utf8(&output.stdout).unwrap();
   let vol_str = str::from_utf8(&out).unwrap();
-
-
   if vol_str.len() < 2 {
     return "[failed to execute amixer]".to_string();
   }
-
   let vol_vec: Vec<String> = vol_str.split(&[' ', '\n'][..]).map(|s| s.to_string()).collect();
   let vol_left = vol_vec[35].to_string();
   let vol_rigth = vol_vec[43].to_string();
@@ -68,7 +65,7 @@ fn return_max_cpu_freq(cores: usize) -> (usize, usize) {
   let mut cur_freq;
 
   for n in 0..=cores {
-    cur_freq = return_cpu_freq(n);
+    cur_freq = return_core_freq(n);
 
     if cur_freq > max_freq {
       max_freq = cur_freq;
@@ -78,7 +75,7 @@ fn return_max_cpu_freq(cores: usize) -> (usize, usize) {
   return (core_num, max_freq)
 }
 
-fn return_cpu_freq(core: usize) -> usize {
+fn return_core_freq(core: usize) -> usize {
   let core = "/sys/devices/system/cpu/cpu".to_string() + &core.to_string() + "/cpufreq/scaling_cur_freq";
   let core_freq = return_string(core).to_string();
   let u64freq = core_freq.parse::<usize>().unwrap();
