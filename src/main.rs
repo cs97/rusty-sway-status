@@ -41,19 +41,15 @@ fn return_vol() -> String {
   let cmd = "amixer".to_string();
   let output = Command::new(cmd).output();
   let out = match output {
-    Ok(out) => out.stdout,
+    Ok(out) => String::from_utf8(out.stdout).unwrap(),
     Err(_e) => { return "VOL:[no audio]".to_string(); }
   };
-  let vol_str = str::from_utf8(&out).unwrap();
-  if vol_str.len() < 2 {
-    return "[failed to execute amixer]".to_string();
-  }
-  let vol_vec: Vec<String> = vol_str.split(&[' ', '\n'][..]).map(|s| s.to_string()).collect();
+
+  let vol_vec: Vec<String> = out.split(&[' ', '\n'][..]).map(|s| s.to_string()).collect();
   let vol_left = vol_vec[35].to_string();
   let vol_rigth = vol_vec[43].to_string();
   let vol_status = vol_vec[36].to_string();
-  let vol = format!("VOL:{}{}{}", vol_left, vol_rigth, vol_status);
-  return vol
+  return format!("VOL:{}{}{}", vol_left, vol_rigth, vol_status);
 }
 
 fn return_max_cpu_freq(cores: usize) -> String {
