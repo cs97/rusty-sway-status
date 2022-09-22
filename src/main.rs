@@ -52,23 +52,33 @@ fn return_vol() -> String {
 }
 
 fn return_max_cpu_freq(cores: usize) -> String {
+  let mut core_num = get_amount_of_cores;
   let mut max_freq = 0;
-  let mut core_num = 0;
   let mut cur_freq;
-
   for n in 0..=cores {
     cur_freq = return_core_freq(n);
-
     if cur_freq > max_freq {
       max_freq = cur_freq;
       core_num = n;  
     }
   }
-
   let cpu_khz = max_freq.to_string();
   let cpu_mhz = cpu_khz.split_at(cpu_khz.len() - 3).0;
-
   return format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz);
+}
+
+fn get_amount_of_cores() -> usize {
+  let mut n = 0;
+  loop {
+    let s = format!("/sys/devices/system/cpu/cpu"{}, n + 1)
+    if Path::new(&s).is_dir() {
+      n = n + 1;
+      continue;
+    } else {
+      break;
+    };
+  };
+  return n;
 }
 
 fn return_core_freq(core: usize) -> usize {
