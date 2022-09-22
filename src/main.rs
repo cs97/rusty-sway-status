@@ -9,7 +9,7 @@ fn main() {
   
   //MHz
 
-  let cpu = 
+  let cpu = return_max_cpu_freq(cpu_cores);
 
   //BAT
   let bat = get_bat();
