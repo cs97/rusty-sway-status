@@ -70,10 +70,10 @@ fn return_max_cpu_freq(cores: usize) -> String {
     }
   }
 
-  let cpu_khz = format!("{}", max_freq);
-  let cpu_mhz = cpu_khz.split_at(cpu_khz.len() - 3);
+  let cpu_khz = max_freq.to_string();
+  let cpu_mhz = cpu_khz.split_at(cpu_khz.len() - 3).0;
 
-  return format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz.0);
+  return format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz);
 }
 
 fn return_core_freq(core: usize) -> usize {
