@@ -8,6 +8,9 @@ fn main() {
   //MHz
   let cpu = return_max_cpu_freq();
 
+  //RAM
+  let ram = get_ram_usage();
+
   //BAT
   let bat = get_bat();
  
@@ -18,7 +21,7 @@ fn main() {
   let volume = return_vol();
  
   //status
-  let stat = format!("{} {} {} {}", cpu, volume, bat, date);
+  let stat = format!("{} {} {} {} {}", cpu, ram, volume, bat, date);
   println!("{}", stat);
 
 }
@@ -50,6 +53,20 @@ fn return_vol() -> String {
   let vol_status = vol_vec[36].to_string();
   return format!("VOL:{}{}{}", vol_left, vol_rigth, vol_status);
 }
+
+fn get_ram_usage() -> String {
+  let ram = return_string("/proc/meminfo".to_string());
+  let mem_lines: Vec<&str> = ram.split('\n').collect();
+  let mem_total_str: Vec<&str> = mem_lines[0].split(' ').collect();
+  let mem_free_str: Vec<&str> = mem_lines[1].split(' ').collect();
+  let mem_total = mem_total_str[mem_total_str.len() - 2].parse::<usize>().unwrap();
+  let mem_free = mem_free_str[mem_free_str.len() - 2].parse::<usize>().unwrap();
+
+  let mem_use = mem_total - mem_free;
+  let mem_use_percent = mem_use / (mem_total / 100);
+  return format!("RAM:[{}%]", mem_use_percent);
+}
+
 
 fn return_max_cpu_freq() -> String {
   let cores = get_amount_of_cores();
