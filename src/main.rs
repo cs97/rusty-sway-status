@@ -60,16 +60,17 @@ fn get_ram_usage() -> String {
 
   fn get_value(v: &Vec<&str>, n: usize) -> usize {
     let s: Vec<&str> = v[n].split(' ').collect();
-    let v = s[s.len() - 2].parse::<usize>().unwrap();
+    let v = s[s.len() -2].parse::<usize>().unwrap();
     return v
   }
 
-  let mem_total_str: Vec<&str> = mem_lines[0].split(' ').collect();
-  let mem_free_str: Vec<&str> = mem_lines[1].split(' ').collect();
-  let mem_total = mem_total_str[mem_total_str.len() - 2].parse::<usize>().unwrap();
-  let mem_free = mem_free_str[mem_free_str.len() - 2].parse::<usize>().unwrap();
+  let mem_total = get_value(&mem_lines, 0);
+  let mem_free = get_value(&mem_lines, 1);
+  let mem_buffer = get_value(&mem_lines, 3);
+  let mem_cached = get_value(&mem_lines, 4);
 
-  let mem_use = mem_total - mem_free;
+  let mem_use = mem_total - (mem_free + mem_buffer + mem_cached);
+  //let mem_use = mem_total - mem_free;
   let mem_use_percent = mem_use / (mem_total / 100);
   return format!("RAM:[{}%]", mem_use_percent);
 }
