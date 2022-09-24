@@ -60,7 +60,7 @@ fn get_ram_usage() -> String {
 
   fn get_value(v: &Vec<&str>, n: usize) -> usize {
     let s: Vec<&str> = v[n].split(' ').collect();
-    let v = s[s.len() - 2].prase::<usize>().unwrap();
+    let v = s[s.len() - 2].parse::<usize>().unwrap();
     return v
   }
 
