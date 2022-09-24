@@ -110,8 +110,8 @@ fn get_amount_of_cores() -> usize {
 fn return_core_freq(core: usize) -> usize {
   let core = "/sys/devices/system/cpu/cpu".to_string() + &core.to_string() + "/cpufreq/scaling_cur_freq";
   let core_freq = return_string(core).to_string();
-  let u64freq = core_freq.parse::<usize>().unwrap();
-  return u64freq
+  let freq = core_freq.parse::<usize>().unwrap();
+  return freq
 }
 
 fn return_string(filename: String) -> String {
