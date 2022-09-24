@@ -57,10 +57,10 @@ fn return_vol() -> String {
 fn get_ram_usage() -> String {
   let ram = return_string("/proc/meminfo".to_string());
   let mem_lines: Vec<&str> = ram.split('\n').collect();
-  
+
   fn get_value(v: &Vec<&str>, n: usize) -> usize {
     let s: Vec<&str> = v[n].split(' ').collect();
-    return vec_str[s.len() - 2].prase::<usize>().unwrap();
+    return s[s.len() - 2].prase::<usize>().unwrap();
   }
 
   let mem_total_str: Vec<&str> = mem_lines[0].split(' ').collect();
