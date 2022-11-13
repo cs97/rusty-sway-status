@@ -92,7 +92,7 @@ fn return_max_cpu_freq() -> String {
   };
   let mut core_num = 0;
   let mut max_freq = 0;
-  let mut cur_freq = 0;
+  let mut cur_freq: usize;
   for n in 0..=cores {
     //cur_freq = return_core_freq(n);
     let core = "/sys/devices/system/cpu/cpu".to_string() + &n.to_string() + "/cpufreq/scaling_cur_freq";
