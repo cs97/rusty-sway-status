@@ -80,7 +80,17 @@ fn get_ram_usage() -> String {
 
 
 fn return_max_cpu_freq() -> String {
-  let cores = get_amount_of_cores();
+  let mut cores = 0;
+  loop {
+    let s = format!("/sys/devices/system/cpu/cpu{}", cores + 1);
+    if Path::new(&s).is_dir() {
+      cores += 1;
+      continue;
+    } else {
+      break;
+    };
+  };
+  //let cores = get_amount_of_cores();
   let mut core_num = 0;
   let mut max_freq = 0;
   let mut cur_freq;
@@ -95,7 +105,7 @@ fn return_max_cpu_freq() -> String {
   let cpu_mhz = cpu_khz.split_at(cpu_khz.len() - 3).0;
   return format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz);
 }
-
+/*
 fn get_amount_of_cores() -> usize {
   let mut n = 0;
   loop {
@@ -109,7 +119,7 @@ fn get_amount_of_cores() -> usize {
   };
   return n;
 }
-
+*/
 fn return_core_freq(core: usize) -> usize {
   let core = "/sys/devices/system/cpu/cpu".to_string() + &core.to_string() + "/cpufreq/scaling_cur_freq";
   let core_freq = return_string(core).to_string();
