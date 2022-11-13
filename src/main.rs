@@ -97,7 +97,7 @@ fn return_max_cpu_freq() -> String {
     //cur_freq = return_core_freq(n);
     let core = "/sys/devices/system/cpu/cpu".to_string() + &n.to_string() + "/cpufreq/scaling_cur_freq";
     let core_freq = return_string(core).to_string();
-    let cur_freq = core_freq.parse::<usize>().unwrap();
+    let cur_freq: usize = core_freq.parse::<usize>().unwrap();
 
     if cur_freq > max_freq {
       max_freq = cur_freq;
