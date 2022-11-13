@@ -139,8 +139,8 @@ fn get_ip() -> String {
 		if check_state(ip_a[n]) {
 			let link: Vec<&str> = ip_a[n].split(' ').collect();
 			let ip: Vec<&str> = ip_a[n + 2].split(' ').collect();
-			return format!("\x1b[32m{}\x1b[0m[{}]", link[1], ip[5]);
+			return format!("{}[{}]", link[1], ip[5]);
 		}
 	}
-	return format!("\x1b[31mlo:\x1b[0m{}","[127.0.0.1/8]")
+	return format!("lo:{}","[127.0.0.1/8]")
 }
