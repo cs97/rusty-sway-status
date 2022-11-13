@@ -19,9 +19,12 @@ fn main() {
 
   //vol
   let volume = return_vol();
+
+  //ip
+  let ip = get_ip();
  
   //status
-  let stat = format!("{} {} {} {} {}", cpu, ram, volume, bat, date);
+  let stat = format!("{} {} {} {} {} {}", cpu, ram, ip, volume, bat, date);
   println!("{}", stat);
 
 }
@@ -118,4 +121,26 @@ fn return_string(filename: String) -> String {
   let mut s = fs::read_to_string(filename).expect("File not found");
   s.pop();
   return s
+}
+
+fn get_ip() -> String {
+
+	fn check_state(s: &str) -> bool {
+		let v: Vec<&str> = s.split(' ').collect();
+		if v.len() < 9 { return false }
+		if v[8] == "UP" { return true } else { return false	}
+	}
+
+	let output = Command::new("ip").args(["a"]).output().expect("failed to execute process");
+	let out = String::from_utf8_lossy(&output.stdout);
+	let ip_a: Vec<&str> = out.split('\n').collect();
+
+	for n in 0..ip_a.len() {
+		if check_state(ip_a[n]) {
+			let link: Vec<&str> = ip_a[n].split(' ').collect();
+			let ip: Vec<&str> = ip_a[n + 2].split(' ').collect();
+			return format!("\x1b[32m{}\x1b[0m[{}]", link[1], ip[5]);
+		}
+	}
+	return format!("\x1b[31mlo:\x1b[0m{}","[127.0.0.1/8]")
 }
