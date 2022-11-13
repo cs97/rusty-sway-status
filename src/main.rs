@@ -90,12 +90,15 @@ fn return_max_cpu_freq() -> String {
       break;
     };
   };
-  //let cores = get_amount_of_cores();
   let mut core_num = 0;
   let mut max_freq = 0;
   let mut cur_freq;
   for n in 0..=cores {
-    cur_freq = return_core_freq(n);
+    //cur_freq = return_core_freq(n);
+    let core = "/sys/devices/system/cpu/cpu".to_string() + &core.to_string() + "/cpufreq/scaling_cur_freq";
+    let core_freq = return_string(core).to_string();
+    let cur_freq = core_freq.parse::<usize>().unwrap();
+
     if cur_freq > max_freq {
       max_freq = cur_freq;
       core_num = n;  
@@ -106,26 +109,13 @@ fn return_max_cpu_freq() -> String {
   return format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz);
 }
 /*
-fn get_amount_of_cores() -> usize {
-  let mut n = 0;
-  loop {
-    let s = format!("/sys/devices/system/cpu/cpu{}", n + 1);
-    if Path::new(&s).is_dir() {
-      n = n + 1;
-      continue;
-    } else {
-      break;
-    };
-  };
-  return n;
-}
-*/
 fn return_core_freq(core: usize) -> usize {
   let core = "/sys/devices/system/cpu/cpu".to_string() + &core.to_string() + "/cpufreq/scaling_cur_freq";
   let core_freq = return_string(core).to_string();
   let freq = core_freq.parse::<usize>().unwrap();
   return freq
 }
+*/
 
 fn return_string(filename: String) -> String {
   let mut s = fs::read_to_string(filename).expect("File not found");
