@@ -107,14 +107,6 @@ fn return_max_cpu_freq() -> String {
   let cpu_mhz = cpu_khz.split_at(cpu_khz.len() - 3).0;
   return format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz);
 }
-/*
-fn return_core_freq(core: usize) -> usize {
-  let core = "/sys/devices/system/cpu/cpu".to_string() + &core.to_string() + "/cpufreq/scaling_cur_freq";
-  let core_freq = return_string(core).to_string();
-  let freq = core_freq.parse::<usize>().unwrap();
-  return freq
-}
-*/
 
 fn return_string(filename: String) -> String {
   let mut s = fs::read_to_string(filename).expect("File not found");
