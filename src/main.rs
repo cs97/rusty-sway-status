@@ -90,6 +90,7 @@ fn return_max_cpu_freq() -> String {
       break;
     };
   };
+
   let mut core_num = 0;
   let mut max_freq = 0;
   for n in 0..=cores {
@@ -103,6 +104,7 @@ fn return_max_cpu_freq() -> String {
       core_num = n;  
     }
   }
+  
   let cpu_khz = max_freq.to_string();
   let cpu_mhz = cpu_khz.split_at(cpu_khz.len() - 3).0;
   return format!("CPU{}:[{}MHz]", core_num.to_string(), cpu_mhz);
