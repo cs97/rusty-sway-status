@@ -30,9 +30,15 @@ fn main() {
 }
 
 fn get_bat() -> String {
-  let bat_cap = return_string("/sys/class/power_supply/BAT0/capacity".to_string());
-  let bat_stat = return_string("/sys/class/power_supply/BAT0/status".to_string());
-  return format!("BAT:[{}% {}]", bat_cap, bat_stat);
+  if Path::new("/sys/class/power_supply/BAT0").is_dir() {
+    let bat_cap = return_string("/sys/class/power_supply/BAT0/capacity".to_string());
+    let bat_stat = return_string("/sys/class/power_supply/BAT0/status".to_string());
+    return format!("BAT:[{}% {}]", bat_cap, bat_stat);
+  } else {
+    let bat_cap = return_string("/sys/class/power_supply/BAT1/capacity".to_string());
+    let bat_stat = return_string("/sys/class/power_supply/BAT1/status".to_string());
+    return format!("BAT:[{}% {}]", bat_cap, bat_stat);
+  }
 }
 
 fn get_date() -> String {
