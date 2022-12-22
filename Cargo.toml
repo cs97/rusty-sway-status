@@ -5,7 +5,7 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [profile.release]
-opt-level = 3  # Optimize for size, but also turn off loop vectorization.
+opt-level = 3
 lto = true
 strip = true
 
