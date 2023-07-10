@@ -49,18 +49,16 @@ fn get_date() -> String {
 }
 
 fn return_vol() -> String {
-  let cmd = "amixer".to_string();
-  let output = Command::new(cmd).output();
+  let output = Command::new("amixer").output();
   let out = match output {
     Ok(out) => String::from_utf8(out.stdout).unwrap(),
     Err(_e) => { return "VOL:[no audio]".to_string(); }
   };
 
-  let vol_vec: Vec<String> = out.split(&[' ', '\n'][..]).map(|s| s.to_string()).collect();
-  let vol_left = vol_vec[35].to_string();
-  let vol_rigth = vol_vec[43].to_string();
-  let vol_status = vol_vec[36].to_string();
-  return format!("VOL:{}{}{}", vol_left, vol_rigth, vol_status);
+	let vol_vec: Vec<_> = out.split('\n').collect();
+	let vol_left: Vec<_> = vol_vec[5].split(' ').collect();
+	let vol_rigth: Vec<_> = vol_vec[6].split(' ').collect();
+  return format!("VOL:{}{}{}", vol_left[6].to_string(), vol_rigth[6].to_string(), vol_rigth[7].to_string());
 }
 
 fn get_ram_usage() -> String {
@@ -100,10 +98,8 @@ fn return_max_cpu_freq() -> String {
   let mut core_num = 0;
   let mut max_freq = 0;
   for n in 0..=cores {
-    //cur_freq = return_core_freq(n);
     let core = format!("/sys/devices/system/cpu/cpu{}/cpufreq/scaling_cur_freq", &n);
-    let core_freq = return_string(core).to_string();
-    let cur_freq = core_freq.parse::<usize>().unwrap();
+    let cur_freq = return_string(core).to_string().parse::<usize>().unwrap();
 
     if cur_freq > max_freq {
       max_freq = cur_freq;
@@ -123,19 +119,12 @@ fn return_string(filename: String) -> String {
 }
 
 fn get_ip() -> String {
-
-  fn check_state(s: &str) -> bool {
-    let v: Vec<&str> = s.split(' ').collect();
-    if v.len() < 9 { return false }
-    if v[8] == "UP" { return true } else { return false	}
-  }
-
   let output = Command::new("ip").args(["a"]).output().expect("failed to execute process");
   let out = String::from_utf8_lossy(&output.stdout);
   let ip_a: Vec<&str> = out.split('\n').collect();
 
   for n in 0..ip_a.len() {
-    if check_state(ip_a[n]) {
+    if ip_a[n].contains("state UP") {
       let link: Vec<&str> = ip_a[n].split(' ').collect();
       let ip: Vec<&str> = ip_a[n + 2].split(' ').collect();
       return format!("{}[{}]", link[1], ip[5]);
