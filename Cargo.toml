@@ -10,3 +10,4 @@ lto = true
 strip = true
 
 [dependencies]
+chrono = "0.4.26"
