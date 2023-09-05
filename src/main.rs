@@ -118,7 +118,7 @@ fn return_string(filename: String) -> String {
   s.pop();
   return s
 }
-
+/*
 fn get_ip() -> String {
   let output = Command::new("ip").args(["a"]).output().expect("failed to execute process");
   let out = String::from_utf8_lossy(&output.stdout);
@@ -132,4 +132,19 @@ fn get_ip() -> String {
     }
   }
   return format!("lo:{}","[127.0.0.1/8]")
+}
+*/
+fn get_ip() -> String {
+	let myip_s = return_string("/proc/net/fib_trie".to_string());
+	let myip: Vec<_> = myip_s.split('\n').collect();
+    for n in 0..myip.len() {
+        if myip[n].contains("/24 link UNICAST") {
+			if myip[n+1].contains("|--") {
+            	return format!("IP:[{}]", myip[n+1].to_string()[15..].to_string());
+			} else if myip[n+2].contains("|--") {
+				return format!("IP:[{}]", myip[n+2].to_string()[15..].to_string());
+			}
+        }
+    }
+	return format!("lo:{}","[127.0.0.1/8]");
 }
