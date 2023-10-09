@@ -45,8 +45,8 @@ fn get_bat() -> String {
 
 fn get_date() -> String {
   let now = Utc::now();
-  //return format!("[{}]", now.format("%a %F %H:%M"));
-  return format!("[{}]", utc.with_timezone(&Berlin).format("%a %F %H:%M"));
+  return format!("[{}]", now.format("%a %F %H:%M"));
+  //return format!("[{}]", utc.with_timezone(&Berlin).format("%a %F %H:%M"));
 }
 
 fn return_vol() -> String {
@@ -59,7 +59,10 @@ fn return_vol() -> String {
 	let vol_vec: Vec<_> = out.split('\n').collect();
 	let vol_left: Vec<_> = vol_vec[5].split(' ').collect();
 	let vol_rigth: Vec<_> = vol_vec[6].split(' ').collect();
-  return format!("VOL:{}{}{}", vol_left[6].to_string(), vol_rigth[6].to_string(), vol_rigth[7].to_string());
+
+	let mic_mute: Vec<_> = vol_vec[11].split(' ').collect();
+	
+  return format!("MIC:{} VOL:{}{}{}", mic_mute[6].to_string(), vol_left[6].to_string(), vol_rigth[6].to_string(), vol_rigth[7].to_string());
 }
 
 fn get_ram_usage() -> String {
