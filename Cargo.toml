@@ -9,6 +9,9 @@ opt-level = 3
 lto = true
 strip = true
 
+[features]
+battery-status = []
+
 [dependencies]
 chrono = "0.4.26"
 chrono-tz = "0.8.5"
