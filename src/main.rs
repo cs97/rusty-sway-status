@@ -2,7 +2,8 @@
 use std::fs;
 use std::path::Path;
 use std::process::Command;
-use chrono::Utc;
+//use chrono::Utc;
+use chrono::Local;
 use chrono_tz::Europe::Berlin;
 
 fn main() {
@@ -44,7 +45,8 @@ fn get_bat() -> String {
 }
 
 fn get_date() -> String {
-  let now = Utc::now();
+  //let now = Utc::now();
+  let now = Local::now();
   return format!("[{}]", now.format("%a %F %H:%M"));
   //return format!("[{}]", utc.with_timezone(&Berlin).format("%a %F %H:%M"));
 }
