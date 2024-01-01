@@ -2,6 +2,7 @@
 
 ### Installing
 * cargo build --release
+* cargo build --release --features battery-status
 * cp target/release/status /usr/bin/status
 
 ~/.config/sway/config
