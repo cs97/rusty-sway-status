@@ -15,6 +15,7 @@ fn main() {
   let ram = get_ram_usage();
 
   //BAT
+  #[cfg(feature = "battery-status")]
   let bat = get_bat();
  
   //date
@@ -27,11 +28,17 @@ fn main() {
   let ip = get_ip();
  
   //status
+  #[cfg(not(feature = "battery-status"))]
+  let stat = format!("{} {} {} {} {}", cpu, ram, ip, volume, date);
+  
+  #[cfg(feature = "battery-status")]
   let stat = format!("{} {} {} {} {} {}", cpu, ram, ip, volume, bat, date);
+	
   println!("{}", stat);
 
 }
 
+#[cfg(feature = "battery-status")]
 fn get_bat() -> String {
   if Path::new("/sys/class/power_supply/BAT0").is_dir() {
     let bat_cap = return_string("/sys/class/power_supply/BAT0/capacity".to_string());
