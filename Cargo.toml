@@ -11,3 +11,4 @@ strip = true
 
 [dependencies]
 chrono = "0.4.26"
+chrono-tz = "0.8.5"
