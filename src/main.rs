@@ -150,7 +150,7 @@ fn get_ip() -> String {
 	let myip_s = return_string("/proc/net/fib_trie".to_string());
 	let myip: Vec<_> = myip_s.split('\n').collect();
     for n in 0..myip.len() {
-        if myip[n].contains("/24 link UNICAST") {
+        if myip[n].contains("link UNICAST") {
 			if myip[n+1].contains("|--") {
             	return format!("IP:[{}]", myip[n+1].to_string()[15..].to_string());
 			} else if myip[n+2].contains("|--") {
