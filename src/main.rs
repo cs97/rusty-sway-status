@@ -25,7 +25,7 @@ fn main() {
 	
   #[cfg(feature = "battery-status")]
   #[cfg(any(target_os = "freebsd"))]
-  let stat = format!("{} {}", return_max_cpu_freq(), get_bat(), get_date());
+  let stat = format!("{} {} {}", return_max_cpu_freq(), get_bat(), get_date());
 
 	
   println!("{}", stat);
