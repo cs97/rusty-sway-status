@@ -40,6 +40,18 @@ fn get_bat() -> String {
     return format!("BAT:[{}% {}]", bat_cap, bat_stat);
   }
 }
+#[cfg(any(target_os = "freebsd"))]
+fn get_bat() -> String {
+	let bat = sysctl::Ctl::new("hw.acpi.battery.life").unwrap().value().unwrap();
+	let ac = sysctl::Ctl::new("hw.acpi.battery.state").unwrap().value().unwrap();
+	
+	let power = match ac {
+		"1" => "Discharging",
+		_ => "Charging",
+			
+	}
+	return format!("BAT:[{}% {}]", bat, power)
+}
 
 fn get_date() -> String {
   //let now = Utc::now();
