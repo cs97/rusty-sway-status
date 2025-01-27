@@ -8,32 +8,13 @@ use chrono_tz::Europe::Berlin;
 use sysctl::Sysctl;
 
 fn main() {
-
-  //MHz
-  let cpu = return_max_cpu_freq();
-
-  //RAM
-  let ram = get_ram_usage();
-
-  //BAT
-  #[cfg(feature = "battery-status")]
-  let bat = get_bat();
- 
-  //date
-  let date = get_date();
-
-  //vol
-  let volume = return_vol();
-
-  //ip
-  let ip = get_ip();
  
   //status
   #[cfg(not(feature = "battery-status"))]
-  let stat = format!("{} {} {} {} {}", cpu, ram, ip, volume, date);
+  let stat = format!("{} {} {} {} {}", return_max_cpu_freq(), get_ram_usage(), get_ip(), return_vol(), get_date());
   
   #[cfg(feature = "battery-status")]
-  let stat = format!("{} {} {} {} {} {}", cpu, ram, ip, volume, bat, date);
+  let stat = format!("{} {} {} {} {} {}", return_max_cpu_freq(), get_ram_usage(), get_ip(), return_vol(), get_bat(), get_date());
 	
   println!("{}", stat);
 
