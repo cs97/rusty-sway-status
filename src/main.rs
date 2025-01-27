@@ -32,7 +32,7 @@ fn main() {
 
 }
 
-#[cfg(feature = "battery-status")]
+#[cfg(any(target_os = "linux"))]
 fn get_bat() -> String {
   if Path::new("/sys/class/power_supply/BAT0").is_dir() {
     let bat_cap = return_string("/sys/class/power_supply/BAT0/capacity".to_string());
