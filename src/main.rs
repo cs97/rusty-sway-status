@@ -95,7 +95,7 @@ fn get_ram_usage() -> String {
   return format!("RAM:[{}%]", mem_use_percent);
 }
 
-
+#[cfg(any(target_os = "linux"))]
 fn return_max_cpu_freq() -> String {
   let mut cores = 0;
   loop {
@@ -129,6 +129,10 @@ fn return_string(filename: String) -> String {
   let mut s = fs::read_to_string(filename).expect("File not found");
   s.pop();
   return s
+}
+#[cfg(any(target_os = "freebsd"))]
+fn return_max_cpu_freq() -> String {
+	return sysctl::Ctl::new("dev.cpu.0.freq").unwrap().value().unwrap();
 }
 /*
 fn get_ip() -> String {
