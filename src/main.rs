@@ -22,6 +22,10 @@ fn main() {
   #[cfg(not(feature = "battery-status"))]
   #[cfg(any(target_os = "freebsd"))]
   let stat = format!("{} {}", return_max_cpu_freq(), get_date());
+	
+  #[cfg(feature = "battery-status")]
+  #[cfg(any(target_os = "freebsd"))]
+  let stat = format!("{} {}", return_max_cpu_freq(), get_bat(), get_date());
 
 	
   println!("{}", stat);
@@ -48,7 +52,6 @@ fn get_bat() -> String {
 	let power = match ac {
 		"1" => "Discharging",
 		_ => "Charging",
-			
 	};
 	return format!("BAT:[{}% {}]", bat, power)
 }
