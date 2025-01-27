@@ -43,7 +43,7 @@ fn get_bat() -> String {
 #[cfg(any(target_os = "freebsd"))]
 fn get_bat() -> String {
 	let bat = sysctl::Ctl::new("hw.acpi.battery.life").unwrap().value_string().unwrap();
-	let ac: &str = sysctl::Ctl::new("hw.acpi.battery.state").unwrap().value_string().unwrap();
+	let ac: &str = &sysctl::Ctl::new("hw.acpi.battery.state").unwrap().value_string().unwrap();
 	
 	let power = match ac {
 		"1" => "Discharging",
