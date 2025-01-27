@@ -11,10 +11,18 @@ fn main() {
  
   //status
   #[cfg(not(feature = "battery-status"))]
+  #[cfg(any(target_os = "linux"))]
   let stat = format!("{} {} {} {} {}", return_max_cpu_freq(), get_ram_usage(), get_ip(), return_vol(), get_date());
   
   #[cfg(feature = "battery-status")]
+  #[cfg(any(target_os = "linux"))]
   let stat = format!("{} {} {} {} {} {}", return_max_cpu_freq(), get_ram_usage(), get_ip(), return_vol(), get_bat(), get_date());
+
+
+  #[cfg(not(feature = "battery-status"))]
+  #[cfg(any(target_os = "freebsd"))]
+  let stat = format!("{} {} {} {} {}", return_max_cpu_freq(), get_date());
+
 	
   println!("{}", stat);
 
@@ -114,7 +122,8 @@ fn return_string(filename: String) -> String {
 }
 #[cfg(any(target_os = "freebsd"))]
 fn return_max_cpu_freq() -> String {
-	return sysctl::Ctl::new("dev.cpu.0.freq").unwrap().value().unwrap();
+	let cpu = sysctl::Ctl::new("dev.cpu.0.freq").unwrap().value().unwrap();
+	return format!("CPU:[{}MHz]", cpu)
 }
 /*
 fn get_ip() -> String {
