@@ -63,7 +63,7 @@ fn get_date() -> String {
   //return format!("[{}]", utc.with_timezone(&Berlin).format("%a %F %H:%M"));
 }
 
-fn return_vol() -> String {
+/*fn return_vol() -> String {
   let output = Command::new("amixer").output();
   let out = match output {
     Ok(out) => String::from_utf8(out.stdout).unwrap(),
@@ -77,6 +77,46 @@ fn return_vol() -> String {
 	let mic_mute: Vec<_> = vol_vec[11].split(' ').collect();
 	
   return format!("MIC:{} VOL:{}{}{}", mic_mute[6].to_string(), vol_left[6].to_string(), vol_rigth[6].to_string(), vol_rigth[7].to_string());
+}*/
+
+
+fn return_vol() -> String {
+
+  let output = Command::new("pactl").args(["get-sink-volume", "@DEFAULT_SINK@"]).output();
+  let out = match output {
+    Ok(out) => String::from_utf8(out.stdout).unwrap(),
+    Err(e) => { 
+        return e.to_string();
+    }
+  };
+  let vol: Vec<&str> = out.split(' ').collect();
+
+
+  let output = Command::new("pactl").args(["get-source-mute", "@DEFAULT_SOURCE@"]).output();
+  let mute = match output {
+    Ok(out) => String::from_utf8(out.stdout).unwrap(),
+    Err(e) => { 
+        return e.to_string();
+    }
+  };
+
+  let output = Command::new("pactl").args(["get-source-volume", "@DEFAULT_SOURCE@"]).output();
+  let out_mic = match output {
+    Ok(out) => String::from_utf8(out.stdout).unwrap(),
+    Err(e) => { 
+        return e.to_string();
+    }
+  };
+  let mic: Vec<&str> = out_mic.split(' ').collect();
+
+  let mic_stat = if "Mute: yes" == mute.as_str().trim() {
+    "mute"
+  } else {
+    mic[4]
+  };
+
+  return format!("VOL:[L:{} R:{}] Mic:[{}]", vol[5], vol[15], mic_stat);
+
 }
 
 fn get_ram_usage() -> String {
