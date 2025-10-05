@@ -2,10 +2,8 @@
 use std::fs;
 use std::path::Path;
 use std::process::Command;
-//use chrono::Utc;
 use chrono::Local;
-use chrono_tz::Europe::Berlin;
-use sysctl::Sysctl;
+
 
 fn main() {
  
@@ -32,6 +30,7 @@ fn main() {
 
 }
 
+#[cfg(not(feature = "battery-status"))]
 #[cfg(any(target_os = "linux"))]
 fn get_bat() -> String {
   if Path::new("/sys/class/power_supply/BAT0").is_dir() {
